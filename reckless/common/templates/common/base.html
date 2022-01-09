@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'common/base.css' %}">
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+    <div class="topnav">
+      <a class="active" href="{% url 'home' %}">Home</a>
+      <a href="#news">Blog</a>
+      <a href="#social">Social</a>
+      <a href="{% url 'notes:index' %}">Notes</a>
+      <a href="#about">About</a>
+    </div>
+
+    <div style="padding-left:16px">
+      {% block content %}<h2>Top Navigation Example</h2><p>Some content..</p>{% endblock %}
+    </div>
+
+  </body>
+</html>
