@@ -1,3 +1,13 @@
+/*
+fefde9 - ivory
+8B7150 - french bistro
+634B66 - english violet
+1A1F16 - dark jungle green
+000000 - black
+/* template variables*/
+
+
+/* base template css */
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -5,12 +15,12 @@ body {
 
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #000000;
 }
 
 .topnav a {
   float: left;
-  color: #f2f2f2;
+  color: #fffafb;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -18,11 +28,56 @@ body {
 }
 
 .topnav a:hover {
-  background-color: #ddd;
+  background-color: #fffafb;
   color: black;
 }
 
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #634B66;
   color: white;
 }
+
+/* The side navigation menu */
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #000000;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+/*.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}*/
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #1A1F16;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 700px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }

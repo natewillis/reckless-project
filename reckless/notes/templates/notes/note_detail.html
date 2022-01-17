@@ -1,0 +1,12 @@
+{% extends 'notes/base.html' %}
+
+{% load markdown_extras %}
+
+{% block content %}
+<h1>{{ object.title }}</h1>
+<p>{{ object.content | markdown | safe }}</p>
+<p>Tags: {{object.tags.all|join:", "}}</p>
+<p>Created By: {{ object.author }}</p>
+<p>Created On: {{ object.created_on|date }}</p>
+<p>Updated On: {{ object.updated_on|date }}</p>
+{% endblock %}
