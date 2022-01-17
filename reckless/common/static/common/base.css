@@ -81,3 +81,9 @@ div.content {
     text-align: center;
     float: none;
   }
+}
+
+/* main content window */
+.main_content {
+    overflow: auto;
+}
