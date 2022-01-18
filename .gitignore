@@ -92,7 +92,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-reckless/settings/settings/.env
+reckless/reckless/settings/.env
 .venv
 env/
 venv/
