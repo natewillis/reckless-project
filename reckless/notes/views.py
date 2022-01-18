@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Note
 from django.views.generic import ListView, CreateView, DetailView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class NoteListView(ListView):
 
@@ -17,11 +17,16 @@ class NoteListView(ListView):
             return Note.objects.all()
 
 
-class NoteCreateView(CreateView):
+class NoteCreateView(LoginRequiredMixin, CreateView):
     model = Note
-    fields = ['title', 'slug', 'content', 'tags']
+    fields = ['title', 'slug', 'content', 'tags', 'author']
     success_url = "/notes/{slug}/"
     ordering = ['-updated_on']
+    login_url = '/admin/'
+
+    def get_initial(self):
+        initial = {'author': self.request.user}
+        return initial
 
 
 class NoteDetailView(DetailView):
