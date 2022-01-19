@@ -1,15 +1,12 @@
 {% extends 'common/base.html' %}
 {% block base_content %}
-<div class="sidebar">
-  <a class="active" href="{% url 'notes:list' %}">All Notes</a>
-  {% for tag in common_tags %}
-  <a href="#">{{ tag.name }}</a>
-  {% endfor %}
-</div>
-
-<!-- Page content -->
-<div class="content">
+<section class="sidebar">
+    <a class="active" href="{% url 'notes:list' %}">All Notes</a>
+    {% for tag in common_tags %}
+    <a href="#">{{ tag.name }}</a>
+    {% endfor %}
+</section>
+<article class="content">
     {% block content %}Some stuff here{% endblock %}
-
-</div>
+</article>
 {% endblock %}
