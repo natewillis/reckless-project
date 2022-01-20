@@ -1,0 +1,10 @@
+{% extends 'data/base.html' %}
+
+{% load markdown_extras %}
+
+{% block content %}
+<h1>{{ object.title }}</h1>
+<p>{{ object.description | markdown | safe }}</p>
+<p><a href="{{ object.file.url }}">Data File</a></p>
+<p>Created On: {{ object.created_on|date }}</p>
+{% endblock %}

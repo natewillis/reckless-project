@@ -25,6 +25,7 @@ body {
     justify-content: space-between;
     align-items: center;
     border-bottom: 3px double #000000;
+    flex-wrap: wrap;
 }
 
 .header a,.topnav a, .header a:visited, .topnav a:visited {
@@ -35,6 +36,7 @@ body {
     font-size: 17px;
     color: #000000;
 }
+
 
 .topnav a:hover {
     background-color: #999;

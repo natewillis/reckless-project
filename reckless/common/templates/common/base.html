@@ -17,9 +17,12 @@
       <a href="{% url 'home' %}" class="brand">Reckless Analysis</a>
       <nav class="topnav">
         <a href="#news">Blog</a>
+        <a href="{% url 'data:list' %}">Data</a>
+        {% if user.is_authenticated %}
         <a href="#social">Social</a>
         <a href="{% url 'notes:list' %}">Notes</a>
         <a href="{% url 'admin:index' %}">Admin</a>
+        {% endif %}
       </nav>
 
     </header>
