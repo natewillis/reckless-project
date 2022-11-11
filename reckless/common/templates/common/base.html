@@ -22,6 +22,8 @@
         <a href="#social">Social</a>
         <a href="{% url 'notes:list' %}">Notes</a>
         <a href="{% url 'admin:index' %}">Admin</a>
+        {% else %}
+        <a href="{% url 'admin:index' %}">Login</a>
         {% endif %}
       </nav>
 
