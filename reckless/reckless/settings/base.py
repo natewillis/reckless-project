@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'crispy_forms',
     'taggit',
     'common',
@@ -87,7 +88,7 @@ WSGI_APPLICATION = 'reckless.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'reckless',
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
