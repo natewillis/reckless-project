@@ -1,17 +1,34 @@
 {% extends 'social/base.html' %}
 
 {% block content %}
-<h1>{{ object }}</h1>
-<h2>People</h2>
-{% for person in object.people.all|dictsort:"last_name"|dictsort:"first_name" %}
-<li><a href="{% url 'social:person-detail' person.id %}">{{ person.first_name }} {{ person.last_name }}</a></li>
-{% endfor %}
-<li><a href="{% url 'social:person-with-household-create' object.pk %}">Add New Family Member</a></li>
-<h2>Relationships</h2>
-{% for relationship in relationships %}
-<li><a href="{% url 'social:relationship-detail' relationship.pk %}">{{ relationship.related_person }}is a {{ relationship.get_relationship_category_display }}</a></li>
-{% endfor %}
-<li><a href="{% url 'social:relationship-create' %}">Add a relationship</a></li>
+
+    <h1>{{ object }}</h1>
+    <h2>People</h2>
+
+    <ul>
+        {% for person in object.people.all|dictsort:"last_name"|dictsort:"first_name" %}
+        <li><a href="{% url 'social:person-detail' person.id %}">{{ person.first_name }} {{ person.last_name }}</a></li>
+        {% endfor %}
+        <li><a href="{% url 'social:person-with-household-create' object.pk %}">Add New Family Member</a></li>
+    </ul>
+
+    <h2>Relationships</h2>
+        <ul>
+            {% for relationship in relationships %}
+            <li><a href="{% url 'social:relationship-detail' relationship.pk %}">{{ relationship.related_person }} is a {{ relationship.get_relationship_category_display }} to {{ relationship.person }}</a></li>
+            {% endfor %}
+            <li><a href="{% url 'social:relationship-create' %}">Add a relationship</a></li>
+        </ul>
+
+    <h2>Interactions</h2>
+        <ul>
+            {% for interaction in interactions %}
+            <li><a href="{% url 'social:interaction-detail' interaction.pk %}">{{ interaction.person }} interacted with {{ interaction.interacted_person }} on {{ interaction.occurred_at }} [{{ interaction.joined_tags }}]</a></li>
+            {% endfor %}
+            <li><a href="{% url 'social:interaction-create' %}">Add an interaction</a></li>
+        </ul>
+    <h2>Notes</h2>
+    <p>{{ object.notes }}</p>
 <p>Created On: {{ object.created_at|date }}</p>
 <p>Updated On: {{ object.updated_at|date }}</p>
 <p><a href="{% url 'social:household-update' object.pk %}">Update Me</a></p>

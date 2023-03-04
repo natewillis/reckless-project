@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Household, Person, Neighborhood, Interaction, Relationship
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -36,11 +36,13 @@ class HouseholdDetailView(DetailView):
         people = household.people.all()
 
         relationships = []
+        interactions = []
         for person in people:
             relationships.extend(person.related_from_persons.all())
-            relationships.extend(person.related_to_persons.all())
+            interactions.extend(Interaction.objects.filter(Q(person=person) | Q(interacted_people=person)))
 
         context['relationships'] = relationships
+        context['interactions'] = interactions
         return context
 
 
@@ -76,7 +78,7 @@ class PersonDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         person = self.get_object()
-        interactions = Interaction.objects.filter(Q(person=person) | Q(interacted_person=person))
+        interactions = Interaction.objects.filter(Q(person=person) | Q(interacted_people=person))
         context['interactions'] = interactions
         return context
 
@@ -90,7 +92,7 @@ class PersonListView(ListView):
 class PersonCreateView(LoginRequiredMixin, CreateView):
     model = Person
     fields = [
-        'first_name', 'last_name', 'household',
+        'first_name', 'last_name', 'f3_name', 'household',
         'birthdate', 'is_me', 'sex',
         'notes'
     ]
@@ -111,7 +113,7 @@ class PersonCreateView(LoginRequiredMixin, CreateView):
 class PersonUpdateView(LoginRequiredMixin, UpdateView):
     model = Person
     fields = [
-        'first_name', 'last_name', 'household',
+        'first_name', 'last_name', 'f3_name', 'household',
         'birthdate', 'is_me', 'sex',
         'notes'
     ]
@@ -179,7 +181,7 @@ class InteractionListView(ListView):
 class InteractionCreateView(LoginRequiredMixin, CreateView):
     model = Interaction
     fields = [
-        'person', 'interacted_person', 'notes',
+        'person', 'interacted_people', 'notes',
         'tags', 'occurred_at'
     ]
     login_url = '/admin/'
@@ -192,7 +194,8 @@ class InteractionCreateView(LoginRequiredMixin, CreateView):
         if me is not None:
             initial['person'] = me.id
         if interacted_person_pk is not None:
-            initial['interacted_person'] = interacted_person_pk
+            person = get_object_or_404(Person, id=interacted_person_pk)
+            initial['interacted_people'] = [person]
 
         return initial
 
@@ -211,6 +214,17 @@ class RelationshipCreateView(LoginRequiredMixin, CreateView):
     ]
     success_url = ""
     login_url = '/admin/'
+
+    def get_initial(self):
+
+        person_pk = self.kwargs.get('person_pk')
+
+        initial = {}
+        if person_pk is not None:
+            person = get_object_or_404(Person, id=person_pk)
+            initial['person'] = person
+
+        return initial
 
     def get_success_url(self):
         return reverse('social:relationship-detail', kwargs={'pk': self.object.id})

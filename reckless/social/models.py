@@ -38,6 +38,7 @@ class Person(models.Model):
 
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, blank=False)
+    f3_name = models.CharField(max_length=100, blank=True)
     household = models.ForeignKey('Household', on_delete=models.CASCADE, blank=False, related_name='people')
     birthdate = models.DateField(blank=True, null=True)
     notes = models.TextField(blank=True)
@@ -47,7 +48,7 @@ class Person(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.first_name} {"" if self.f3_name=="" else self.f3_name+" "}{self.last_name}'
 
 
 class Relationship(models.Model):
@@ -63,6 +64,7 @@ class Relationship(models.Model):
         FRIEND = 8
         CLASSMATE = 9
         SPOUSE = 10
+        SIGNIFICANT_OTHER = 11
 
     person = models.ForeignKey('Person', on_delete=models.CASCADE, blank=False, related_name='related_from_persons')
     related_person = models.ForeignKey('Person', on_delete=models.CASCADE, blank=False, related_name='related_to_persons')
@@ -77,7 +79,7 @@ class Relationship(models.Model):
 
 class Interaction(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name='interacted_by_persons')
-    interacted_person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name='interacted_with_persons')
+    interacted_people = models.ManyToManyField('Person', related_name='interacted_with_people')
     notes = models.TextField(blank=True)
     tags = TaggableManager()
     approximate_location = models.PointField(null=True)
@@ -86,4 +88,7 @@ class Interaction(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.interacted_person} interacted with {self.person} on {self.occurred_at} [{",".join(self.tags.names())}]'
+        interacted_people_list = ", ".join(str(person) for person in self.interacted_people.all())
+        return f"{self.person} interacted with {interacted_people_list} [{self.joined_tags()}]"
+    def joined_tags(self):
+        return ",".join(self.tags.names())

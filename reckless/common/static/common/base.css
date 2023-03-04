@@ -6,12 +6,12 @@ fefde9 - ivory
 000000 - black
 /* template variables*/
 
-
 /* base template css */
 html, body {
     height: 100%;
     margin: 0;
 }
+
 body {
     font-family: Overpass, Arial, Helvetica, sans-serif;
     background-color: #ffffff;
@@ -28,7 +28,7 @@ body {
     flex-wrap: wrap;
 }
 
-.header a,.topnav a, .header a:visited, .topnav a:visited {
+.header a, .topnav a, .header a:visited, .topnav a:visited {
     float: left;
     text-align: center;
     padding: 14px 16px;
@@ -46,7 +46,7 @@ body {
 /* The main container below the topnav */
 .main {
     flex: 1;
-    display:flex;
+    display: flex;
 }
 
 /* The side navigation menu */
@@ -57,16 +57,16 @@ body {
 
 /* Sidebar links */
 .sidebar a {
-  display: block;
-  color: #000000;
-  padding: 16px;
-  text-decoration: none;
+    display: block;
+    color: #000000;
+    padding: 16px;
+    text-decoration: none;
 }
 
 /* Links on mouse-over */
 .sidebar a:hover:not(.active) {
-  background-color: #1A1F16;
-  color: white;
+    background-color: #1A1F16;
+    color: white;
 }
 
 /* main content window */

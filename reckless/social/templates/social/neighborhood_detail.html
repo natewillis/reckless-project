@@ -9,10 +9,5 @@
     <li><a href="{% url 'social:household-detail' household.pk %}">{{ household.name }}</a></li>
 {% endfor %}
 </ul>
-
-
-
-<p>Created On: {{ object.created_at|date }}</p>
-<p>Updated On: {{ object.updated_at|date }}</p>
-<p><a href="#">Update Me</a></p>
+<p><a href="{% url 'social:neighborhood-update' object.pk %}">Update Me</a></p>
 {% endblock %}

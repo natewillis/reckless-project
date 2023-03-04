@@ -10,5 +10,5 @@
 {% else %}
 <p>No interactions right now!</p>
 {% endif %}
-<p><a href="#">Add</a> an interaction</p>
+<p><a href="{% url 'social:interaction-create' %}">Add an interaction</a></p>
 {% endblock %}
