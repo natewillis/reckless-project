@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Household, Person, Neighborhood, Interaction
+from .models import Household, Person, Neighborhood, Interaction, Relationship
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
@@ -28,6 +28,20 @@ class HouseholdDetailView(DetailView):
 
     # set model
     model = Household
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        household = self.object
+        people = household.people.all()
+
+        relationships = []
+        for person in people:
+            relationships.extend(person.related_from_persons.all())
+            relationships.extend(person.related_to_persons.all())
+
+        context['relationships'] = relationships
+        return context
 
 
 class HouseholdUpdateView(LoginRequiredMixin, UpdateView):
@@ -184,3 +198,20 @@ class InteractionCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('social:interaction-detail', kwargs={'pk': self.object.id})
+
+class RelationshipDetailView(DetailView):
+
+    # set model
+    model = Relationship
+
+class RelationshipCreateView(LoginRequiredMixin, CreateView):
+    model = Relationship
+    fields = [
+        'person', 'related_person', 'relationship_category', 'notes'
+    ]
+    success_url = ""
+    login_url = '/admin/'
+
+    def get_success_url(self):
+        return reverse('social:relationship-detail', kwargs={'pk': self.object.id})
+

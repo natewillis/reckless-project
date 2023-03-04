@@ -1,0 +1,10 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+<h1>{{ object }}</h1>
+<h2>Notes</h2>
+<p>{{ object.notes }}</p>
+<p>Created On: {{ object.created_at|date }}</p>
+<p>Updated On: {{ object.updated_at|date }}</p>
+<p><a href="#">Update Me</a></p>
+{% endblock %}

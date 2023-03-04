@@ -7,6 +7,11 @@
 <li><a href="{% url 'social:person-detail' person.id %}">{{ person.first_name }} {{ person.last_name }}</a></li>
 {% endfor %}
 <li><a href="{% url 'social:person-with-household-create' object.pk %}">Add New Family Member</a></li>
+<h2>Relationships</h2>
+{% for relationship in relationships %}
+<li><a href="{% url 'social:relationship-detail' relationship.pk %}">{{ relationship.related_person }}is a {{ relationship.get_relationship_category_display }}</a></li>
+{% endfor %}
+<li><a href="{% url 'social:relationship-create' %}">Add a relationship</a></li>
 <p>Created On: {{ object.created_at|date }}</p>
 <p>Updated On: {{ object.updated_at|date }}</p>
 <p><a href="{% url 'social:household-update' object.pk %}">Update Me</a></p>
