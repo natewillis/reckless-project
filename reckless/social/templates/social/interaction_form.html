@@ -1,0 +1,9 @@
+{% extends 'social/base.html' %}
+{% load crispy_forms_tags %}
+{% block extra_head %} {{ form.media }} {% endblock %}
+{% block content %}
+<form method="post">{% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Save">
+</form>
+{% endblock content %}

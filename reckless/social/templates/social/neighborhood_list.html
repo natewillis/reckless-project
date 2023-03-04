@@ -1,0 +1,14 @@
+{% extends 'social/base.html' %}
+{% block content %}
+<h2>Notes</h2>
+{% if object_list %}
+<ul>
+    {% for neighborhood in object_list %}
+    <li><a href="{% url 'social:neighborhood-detail' neighborhood.pk %}">{{ neighborhood.name }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No neighborhoods right now!</p>
+{% endif %}
+<p><a href="#">Add</a> a neighborhood</p>
+{% endblock %}

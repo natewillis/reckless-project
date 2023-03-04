@@ -1,0 +1,20 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+<h1>{{ object.first_name }} {{ object.last_name }}</h1>
+<p>Household: <a href="{% url 'social:household-detail' object.household.pk %}">{{ object.household }}</a></p>
+<h2>Relationships</h2>
+{% for relationship in object.related_from_persons.all %}
+<li><a href="{% url 'social:person-detail' relationship.related_person.pk %}">{{ relationship.related_person }}</a> is a {{ relationship.get_relationship_category_display }}</li>
+{% endfor %}
+<h2>Interactions</h2>
+{% for interaction in interactions|dictsortreversed:'updated_at' %}
+<li><a href="{% url 'social:interaction-detail' interaction.pk %}">{{ interaction.interacted_person }} interacted with {{ interaction.person }}</a></li>
+{% endfor %}
+<li><a href="{% url 'social:interaction-with-interacted-person-create' object.pk %}">Add Interaction</a></li>
+<p>Created On: {{ object.created_at|date }}</p>
+<p>Updated On: {{ object.updated_at|date }}</p>
+<p><a href="{%  url 'social:person-update' object.id %}">Update Me</a></p>
+{% endblock %}
+
+updated_at

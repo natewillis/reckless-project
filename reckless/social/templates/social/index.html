@@ -1,0 +1,22 @@
+{% extends 'social/base.html' %}
+
+{% block content %}
+
+<h1>Households</h1>
+{% for household in households %}
+<li><a href="{% url 'social:household-detail' household.pk %}">{{ household.name }}</a></li>
+{% endfor %}
+<li><a href="{% url 'social:household-create' %}">Add New</a></li>
+<h1>Neighborhoods</h1>
+{% for neighborhood in neighborhoods %}
+<li><a href="{% url 'social:neighborhood-detail' neighborhood.pk %}">{{ neighborhood.name }}</a></li>
+{% endfor %}
+<h1>Latest Interactions</h1>
+{% for interaction in interactions %}
+<li><a href="{% url 'social:interaction-detail' interaction.pk %}">{{ interaction }}</a></li>
+{% endfor %}
+<h2>Interaction Tags</h2>
+{% for interaction_tag in interaction_tags %}
+<li><a href="{% url 'social:interaction-tag-list' interaction_tag.slug %}">{{ interaction_tag.name }}</a></li>
+{% endfor %}
+{% endblock %}

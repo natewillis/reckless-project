@@ -1,0 +1,14 @@
+{% extends 'social/base.html' %}
+{% block content %}
+<h2>People</h2>
+{% if object_list %}
+<ul>
+    {% for person in object_list %}
+    <li><a href="{% url 'social:person-detail' person.pk %}">{{ person.last_name }}, {{ person.first_name }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No people right now!</p>
+{% endif %}
+<p><a href="{% url 'social:person-create' %}">Add</a> a person</p>
+{% endblock %}

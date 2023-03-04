@@ -11,14 +11,19 @@ class Household(models.Model):
     zip_code = models.CharField(max_length=10, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    neighborhood = models.ForeignKey('Neighborhood', on_delete=models.CASCADE, blank=False)
+    neighborhood = models.ForeignKey('Neighborhood', on_delete=models.CASCADE, blank=False, related_name='households')
     notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return f'{self.name} in {self.neighborhood.name}'
 
 
 class Neighborhood(models.Model):
     name = models.CharField(max_length=100, blank=False)
     location = models.PointField(blank=False)
 
+    def __str__(self):
+        return self.name
 
 class Person(models.Model):
 
@@ -33,13 +38,16 @@ class Person(models.Model):
 
     first_name = models.CharField(max_length=100, blank=False)
     last_name = models.CharField(max_length=100, blank=False)
-    household = models.ForeignKey('Household', on_delete=models.CASCADE, blank=False)
-    birthdate = models.DateField(blank=True)
+    household = models.ForeignKey('Household', on_delete=models.CASCADE, blank=False, related_name='people')
+    birthdate = models.DateField(blank=True, null=True)
     notes = models.TextField(blank=True)
     is_me = models.BooleanField(default=False, blank=False)
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, default=MALE, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Relationship(models.Model):
@@ -54,6 +62,7 @@ class Relationship(models.Model):
         COWORKER = 7
         FRIEND = 8
         CLASSMATE = 9
+        SPOUSE = 10
 
     person = models.ForeignKey('Person', on_delete=models.CASCADE, blank=False, related_name='related_from_persons')
     related_person = models.ForeignKey('Person', on_delete=models.CASCADE, blank=False, related_name='related_to_persons')
@@ -62,13 +71,19 @@ class Relationship(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'{self.related_person} is {self.person}\'s {self.get_relationship_category_display()}'
+
 
 class Interaction(models.Model):
     person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name='interacted_by_persons')
     interacted_person = models.ForeignKey('Person', on_delete=models.CASCADE, related_name='interacted_with_persons')
     notes = models.TextField(blank=True)
     tags = TaggableManager()
-    approximate_location = models.PointField(blank=True)
+    approximate_location = models.PointField(null=True)
     occurred_at = models.DateField(default=datetime.date.today)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.interacted_person} interacted with {self.person} on {self.occurred_at} [{",".join(self.tags.names())}]'
