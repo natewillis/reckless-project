@@ -119,6 +119,30 @@ class NeighborhoodListView(ListView):
     ordering = ['name']
 
 
+class NeighborhoodUpdateView(LoginRequiredMixin, UpdateView):
+    model = Neighborhood
+    fields = [
+        'name'
+    ]
+    success_url = "/neighborhood/all"
+    login_url = '/admin/'
+
+    def get_success_url(self):
+        return reverse('social:neighborhood-detail', kwargs={'pk': self.object.id})
+
+
+class NeighborhoodCreateView(LoginRequiredMixin, CreateView):
+    model = Neighborhood
+    fields = [
+        'name'
+    ]
+    success_url = "/neighborhood/all"
+    login_url = '/admin/'
+
+    def get_success_url(self):
+        return reverse('social:neighborhood-detail', kwargs={'pk': self.object.id})
+
+
 class InteractionDetailView(DetailView):
 
     model = Interaction

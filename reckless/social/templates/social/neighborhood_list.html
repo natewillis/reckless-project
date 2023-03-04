@@ -10,5 +10,5 @@
 {% else %}
 <p>No neighborhoods right now!</p>
 {% endif %}
-<p><a href="#">Add</a> a neighborhood</p>
+<p><a href="{% url 'social:neighborhood-create' %}">Add a neighborhood</a></p>
 {% endblock %}

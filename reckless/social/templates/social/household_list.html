@@ -10,5 +10,5 @@
 {% else %}
 <p>No households right now!</p>
 {% endif %}
-<p><a href="#">Add</a> a note</p>
+<p><a href="{% url 'social:household-create' %}">Add a household</a></p>
 {% endblock %}

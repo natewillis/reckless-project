@@ -20,7 +20,7 @@ class Household(models.Model):
 
 class Neighborhood(models.Model):
     name = models.CharField(max_length=100, blank=False)
-    location = models.PointField(blank=False)
+    location = models.PointField(null=True)
 
     def __str__(self):
         return self.name

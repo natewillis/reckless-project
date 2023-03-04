@@ -1,7 +1,7 @@
 from social.views import HouseholdDetailView, PersonDetailView, index, NeighborhoodDetailView, \
     InteractionDetailView, InteractionListView, HouseholdUpdateView, HouseholdCreateView, \
     PersonCreateView, PersonListView, HouseholdListView, NeighborhoodListView, InteractionCreateView, \
-    PersonUpdateView
+    PersonUpdateView, NeighborhoodUpdateView, NeighborhoodCreateView
 from django.urls import path
 
 app_name = 'social'
@@ -13,6 +13,8 @@ urlpatterns = [
     path('household/create/', HouseholdCreateView.as_view(), name='household-create'),
     path('neighborhood/<int:pk>/', NeighborhoodDetailView.as_view(), name='neighborhood-detail'),
     path('neighborhood/all/', NeighborhoodListView.as_view(), name='neighborhood-list'),
+    path('neighborhood/update/<int:pk>/', NeighborhoodUpdateView.as_view(), name='neighborhood-update'),
+    path('neighborhood/create/', NeighborhoodCreateView.as_view(), name='neighborhood-create'),
     path('interaction/<int:pk>/', InteractionDetailView.as_view(), name='interaction-detail'),
     path('interactions/tag/<slug:tag>/', InteractionListView.as_view(), name='interaction-tag-list'),
     path('interaction/create/', InteractionCreateView.as_view(), name='interaction-create'),
