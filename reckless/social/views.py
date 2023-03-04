@@ -202,6 +202,17 @@ class InteractionCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('social:interaction-detail', kwargs={'pk': self.object.id})
 
+class InteractionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Interaction
+    fields = [
+        'person', 'interacted_people', 'notes',
+        'tags', 'occurred_at'
+    ]
+    login_url = '/admin/'
+
+    def get_success_url(self):
+        return reverse('social:interaction-detail', kwargs={'pk': self.object.id})
+
 class RelationshipDetailView(DetailView):
 
     # set model
