@@ -39,8 +39,8 @@ body {
 
 
 .topnav a:hover {
-    background-color: #999;
-    color: black;
+    background-color: #1A1F16;
+    color: white;
 }
 
 /* The main container below the topnav */
@@ -77,14 +77,32 @@ body {
 }
 
 @media (max-width: 767px) {
-  .sidebar {
+  /*.sidebar {
     display: none;
-  }
+  }*/
   .header a, .topnav a, .header a:visited, .topnav a:visited {
-      font-size: 12px;
-      padding: 4px 6px;
+      font-size: 14px;
+      padding: 6px 8px;
   }
   .main {
       font-size: 12px;
+      flex-direction: column;
+  }
+  .sidebar {
+        width: initial;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px double #000000;
+        flex-wrap: wrap;
+        border-right: initial;
+  }
+  .sidebar a, .sidebar a:visited, .sidebar a:visited {
+        float: left;
+        text-align: center;
+        padding: 4px 6px;
+        text-decoration: none;
+        color: #000000;
+        font-size: 12px;
   }
 }
