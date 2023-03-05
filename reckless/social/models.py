@@ -14,6 +14,8 @@ class Household(models.Model):
     neighborhood = models.ForeignKey('Neighborhood', on_delete=models.CASCADE, blank=False, related_name='households')
     notes = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ["name"]
     def __str__(self):
         return f'{self.name} in {self.neighborhood.name}'
 
@@ -21,6 +23,9 @@ class Household(models.Model):
 class Neighborhood(models.Model):
     name = models.CharField(max_length=100, blank=False)
     location = models.PointField(null=True)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -46,6 +51,9 @@ class Person(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, default=MALE, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["last_name", "first_name"]
 
     def __str__(self):
         return f'{self.first_name} {"" if self.f3_name=="" else self.f3_name+" "}{self.last_name}'
@@ -87,8 +95,10 @@ class Interaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-occurred_at"]
     def __str__(self):
         interacted_people_list = ", ".join(str(person) for person in self.interacted_people.all())
-        return f"{self.person} interacted with {interacted_people_list} [{self.joined_tags()}]"
+        return f"{self.person} interacted with {interacted_people_list} on {self.occurred_at} [{self.joined_tags()}]"
     def joined_tags(self):
         return ",".join(self.tags.names())

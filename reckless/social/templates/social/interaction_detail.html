@@ -2,6 +2,19 @@
 
 {% block content %}
 <h1>{{ object }}</h1>
+    <h2>People</h2>
+    <ul>
+    <li><a href="{% url 'social:person-detail' object.person.pk %}">{{ object.person }}</a> (person who did interacting)</li>
+    {% for person in object.interacted_people.all %}
+        <li><a href="{% url 'social:person-detail' person.pk %}">{{ person }}</a></li>
+    {% endfor %}
+    </ul>
+    <h2>Tags</h2>
+    <ul>
+    {% for tag in object.tags.all %}
+    <li><a href="{% url 'social:interaction-tag-list' tag %}">{{ tag.name }}</a></li>
+    {% endfor %}
+    </ul>
 <h2>Notes</h2>
 <p>{{ object.notes }}</p>
 <p>Created On: {{ object.created_at|date }}</p>

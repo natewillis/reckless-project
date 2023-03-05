@@ -2,7 +2,8 @@
 
 {% block content %}
     <h1>{{ object.first_name }} {{ object.last_name }}</h1>
-    <p>Household: <a href="{% url 'social:household-detail' object.household.pk %}">{{ object.household }}</a></p>
+    <h2>Household</h2>
+    <p><a href="{% url 'social:household-detail' object.household.pk %}">{{ object.household }}</a></p>
     <h2>Relationships</h2>
     <ul>
         {% for relationship in object.related_from_persons.all %}
