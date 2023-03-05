@@ -75,3 +75,16 @@ body {
     flex: 1;
     margin: 20px;
 }
+
+@media (max-width: 767px) {
+  .sidebar {
+    display: none;
+  }
+  .header a, .topnav a, .header a:visited, .topnav a:visited {
+      font-size: 12px;
+      padding: 4px 6px;
+  }
+  .main {
+      font-size: 12px;
+  }
+}
