@@ -75,6 +75,7 @@ class Relationship(models.Model):
         SIGNIFICANT_OTHER = 11
         STUDENT = 12
         TEACHER = 13
+        SIBLING = 14
 
     person = models.ForeignKey('Person', on_delete=models.CASCADE, blank=False, related_name='related_from_persons')
     related_person = models.ForeignKey('Person', on_delete=models.CASCADE, blank=False, related_name='related_to_persons')
