@@ -7,7 +7,7 @@
 
     <ul>
         {% for person in object.people.all|dictsort:"last_name"|dictsort:"first_name" %}
-        <li><a href="{% url 'social:person-detail' person.id %}">{{ person.first_name }} {{ person.last_name }}</a></li>
+        <li><a href="{% url 'social:person-detail' person.id %}">{{ person }}</a></li>
         {% endfor %}
         <li><a href="{% url 'social:person-with-household-create' object.pk %}">Add New Family Member</a></li>
     </ul>
@@ -15,7 +15,7 @@
     <h2>Relationships</h2>
         <ul>
             {% for relationship in relationships %}
-            <li><a href="{% url 'social:relationship-detail' relationship.pk %}">{{ relationship.related_person }} is a {{ relationship.get_relationship_category_display }} to {{ relationship.person }}</a></li>
+            <li><a href="{% url 'social:relationship-detail' relationship.pk %}">{{ relationship }}</a></li>
             {% endfor %}
             <li><a href="{% url 'social:relationship-create' %}">Add a relationship</a></li>
         </ul>
@@ -23,7 +23,7 @@
     <h2>Interactions</h2>
         <ul>
             {% for interaction in interactions %}
-            <li><a href="{% url 'social:interaction-detail' interaction.pk %}">{{ interaction.person }} interacted with {{ interaction.interacted_person }} on {{ interaction.occurred_at }} [{{ interaction.joined_tags }}]</a></li>
+            <li><a href="{% url 'social:interaction-detail' interaction.pk %}">{{ interaction }}</a></li>
             {% endfor %}
             <li><a href="{% url 'social:interaction-create' %}">Add an interaction</a></li>
         </ul>

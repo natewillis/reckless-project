@@ -36,13 +36,15 @@ class HouseholdDetailView(DetailView):
         people = household.people.all()
 
         relationships = []
-        interactions = []
+        interaction_dict = {}
         for person in people:
             relationships.extend(person.related_from_persons.all())
-            interactions.extend(Interaction.objects.filter(Q(person=person) | Q(interacted_people=person)))
+            for interaction in Interaction.objects.filter(Q(person=person) | Q(interacted_people=person)):
+                interaction_dict[interaction.pk] = interaction
+
 
         context['relationships'] = relationships
-        context['interactions'] = interactions
+        context['interactions'] = list(interaction_dict.values())
         return context
 
 
@@ -78,7 +80,7 @@ class PersonDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         person = self.get_object()
-        interactions = Interaction.objects.filter(Q(person=person) | Q(interacted_people=person))
+        interactions = Interaction.objects.filter(Q(person=person) | Q(interacted_people=person)).distinct()
         context['interactions'] = interactions
         return context
 
