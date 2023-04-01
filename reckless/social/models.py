@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from taggit.managers import TaggableManager
 import datetime
-
+from django.core.exceptions import ValidationError
 
 class Household(models.Model):
     name = models.CharField(max_length=100, blank=False)
@@ -41,8 +41,8 @@ class Person(models.Model):
         (OTHER, 'Other')
     ]
 
-    first_name = models.CharField(max_length=100, blank=False)
-    last_name = models.CharField(max_length=100, blank=False)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
     f3_name = models.CharField(max_length=100, blank=True)
     household = models.ForeignKey('Household', on_delete=models.CASCADE, blank=False, related_name='people')
     birthdate = models.DateField(blank=True, null=True)
@@ -56,7 +56,17 @@ class Person(models.Model):
         ordering = ["last_name", "first_name"]
 
     def __str__(self):
-        return f'{self.first_name} {"" if self.f3_name=="" else self.f3_name+" "}{self.last_name}'
+        # Use a list comprehension to filter out blank fields, then join them with spaces
+        return ' '.join([name for name in [self.first_name, self.f3_name, self.last_name] if name])
+
+    def clean(self):
+        # Check if at least one of first_name, last_name, and f3_name is present
+        if not (self.first_name or self.last_name or self.f3_name):
+            raise ValidationError('At least one of first_name, last_name, or f3_name must be provided.')
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super(Person, self).save(*args, **kwargs)
 
 
 class Relationship(models.Model):
